@@ -23,3 +23,4 @@ __pycache__/
 # OS
 .DS_Store
 .github/workflows/cicd.yaml
+.github/workflows/cicd-v2.yaml
