@@ -1,0 +1,44 @@
+name: CICD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ['self-hosted', 'Linux', 'X64']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Python
+        run: |
+          python3.12 --version
+          python3.12 -m pip --version
+
+      - name: Create virtual environment
+        run: |
+          python3.12 -m venv .venv
+
+      - name: Install dependencies
+        run: |
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          .venv/bin/python -m unittest discover tests
+
+  build:
+    needs: test
+    runs-on: ['self-hosted', 'Linux', 'X64']
+
+    steps: 
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Build image
+        run: |
+          docker build -t flask-sample-app:${{ github.sha }} .      
