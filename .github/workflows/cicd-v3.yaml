@@ -98,4 +98,5 @@ jobs:
           docker run -d \
             --name flask-app \
             -p 5000:5000 \
+            -e APP_NAME="${{ vars.APP_NAME }}" \
             flask-sample-app:${{ github.sha }}

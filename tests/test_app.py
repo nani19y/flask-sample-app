@@ -7,7 +7,7 @@ class TestAppRoutes(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
         self.app.testing = True
-        os.environ["APP_NAME"] = "test"
+        os.environ["APP_NAME"] = "Test"
 
     def tearDown(self):
         os.environ.pop("APP_NAME", None)
