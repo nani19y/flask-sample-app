@@ -50,5 +50,31 @@ jobs:
             --name flask-app \
             -p 5000:5000 \
             flask-sample-app:${{ github.sha }}
+
+            sleep 3
+
+          curl http://localhost:5000/health
           docker stop flask-app
           docker rm flask-app
+
+      - name: Save Docker image
+        run: |
+          docker save flask-sample-app:${{ github.sha }} \
+            -o flask-sample-app-${{ github.sha }}.tar
+
+      - name: Upload Docker image
+        uses: actions/upload-artifact@v4
+        with:
+          name: flask-sample-app-${{ github.sha }}
+          path: flask-sample-app-${{ github.sha }}.tar
+
+  deploy-dev:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: flask-dev
+
+    steps:
+      - name: deployment to development
+        run: |
+          echo "deploying flask application"
