@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ['self-hosted', 'Linux', 'X64']
 
     steps:
       - name: Checkout
@@ -34,7 +34,7 @@ jobs:
 
   build:
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: ['self-hosted', 'Linux', 'X64']
 
     steps:
       - name: Checkout
@@ -70,7 +70,7 @@ jobs:
 
   deploy-dev:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ['self-hosted', 'Linux', 'X64']
     environment:
       name: flask-dev
 
